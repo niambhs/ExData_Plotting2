@@ -5,8 +5,6 @@ nei_research <- function() {
   #all sources for each of the years 1999, 2002, 2005, and 2008.
   
   #read each of the two files using the readRDS() function in R.
-  #NEI <- readRDS("C:/DataScience/module 4/week3/project/summarySCC_PM25.rds")
-  #SCC <- readRDS("C:/DataScience/module 4/week3/project/Source_Classification_Code.rds")
   NEI <- readRDS("summarySCC_PM25.rds")
   SCC <- readRDS("Source_Classification_Code.rds")
  
@@ -22,14 +20,15 @@ nei_research <- function() {
   
   longTotalEmissions <- melt(totalEmissions) 
   names(longTotalEmissions)<-c("Year","PMEmissions")
-    
+  
+  #Question 1
+  
   # plot total PM2.5 emission from all sources for each of the years 1999 , 2002, 2005, and 2008.
   plot(longTotalEmissions$Year, longTotalEmissions$PMEmissions,
-       main = paste("Total PM2.5 Emission per Year"), 
+       main = paste("Total PM2.5 Emission"), 
        col="red", ylab = "PM2.5 Emission", xlab = "Year")
   lines(longTotalEmissions$Year, longTotalEmissions$PMEmissions, type="l") 
   axis(2)
-  axis(side = 1, at = seq(1999, 2008, by = 3))
-  dev.copy(png, file="plot1.png", width=480, height=480)
+  dev.copy(png, file="plot1.png", width=500, height=500)
   dev.off()
 }
