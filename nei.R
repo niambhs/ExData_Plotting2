@@ -14,10 +14,22 @@ nei_research <- function() {
   totalEmissions <- tapply(NEI$Emissions, NEI$year, sum)
   head(totalEmissions)
   
+  if (!require("reshape2")) {
+    install.packages("reshape2")
+  }
+  
+  require("reshape2")
+  
+  longTotalEmissions <- melt(totalEmissions) 
+  names(longTotalEmissions)<-c("Year","PMEmissions")
+    
   # plot total PM2.5 emission from all sources for each of the years 1999 , 2002, 2005, and 2008.
-  plot(totalEmissions,
-       ylab=" ",xlab=" ",pch=".")
-  lines(totalEmissions, type="l") 
+  plot(longTotalEmissions$Year, longTotalEmissions$PMEmissions,
+       main = paste("Total PM2.5 Emission per Year"), 
+       col="red", ylab = "PM2.5 Emission", xlab = "Year")
+  lines(longTotalEmissions$Year, longTotalEmissions$PMEmissions, type="l") 
+  axis(2)
+  axis(side = 1, at = seq(1999, 2008, by = 3))
   dev.copy(png, file="plot1.png", width=480, height=480)
   dev.off()
 }
