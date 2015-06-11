@@ -18,11 +18,16 @@ plot3 <- function() {
   aggregateEmmissions  <- aggregate(Emissions ~ year+type,
                                     data=factoredNEIBalt,
                                     FUN=sum)
-  
-  
-  
-  
+    
   head(aggregateEmmissions)
+  
+  if (!require("ggplot2")) {
+    install.packages("ggplot2")
+  }
+  
+  require("ggplot2")
+  ggplot(diamonds, aes(clarity, fill=cut)) + geom_bar()
+  
   
  
 }
