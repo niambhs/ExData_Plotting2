@@ -14,7 +14,7 @@ plot3 <- function() {
   
   factoredNEIBalt<-transform(NEIBalt,type=factor(type),year=factor(year))
   
-  # Group data by year and type of the source
+  # Group data by year and type of factoredNEIBalt
   aggregateEmmissions  <- aggregate(Emissions ~ year+type,
                                     data=factoredNEIBalt,
                                     FUN=sum)
@@ -26,8 +26,15 @@ plot3 <- function() {
   }
   
   require("ggplot2")
-  ggplot(diamonds, aes(clarity, fill=cut)) + geom_bar()
-  
+  a <- ggplot(data = aggregateEmmissions, aes(x = year, y = Emissions, col = type, group = type))
+  a <- a + geom_point()
+  a <- a + geom_line() 
+  a <- a + xlab("Year") + ylab("Emmisions") + ggtitle("Total emissions from 1999-2008") + 
+    scale_color_discrete(name = "Type")
+  #a<-qplot(year, Emissions, data = aggregateEmmissions, geom = c("point", "line"), colour = type)
+ 
+
+  print(a)
   
  
 }
