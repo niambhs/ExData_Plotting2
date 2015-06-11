@@ -13,6 +13,8 @@ plot2 <- function() {
  
   # Calculate total PM2.5 emissions by year
   totalEmissions <- tapply(NEIBalt$Emissions, NEIBalt$year, sum)
+  
+  
   head(totalEmissions)
   
   if (!require("reshape2")) {
