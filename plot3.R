@@ -12,10 +12,17 @@ plot3 <- function() {
   #sub set the data
   NEIBalt <- subset(NEI, fips=='24510')
   
-  # Calculate total PM2.5 emissions by year
-  totalEmissions <- data.frame(tapply(NEIBalt$Emissions, list(NEIBalt$year,NEIBalt$type), sum))
-  colnames(totalEmissions)[1]="Year"
+  factoredNEIBalt<-transform(NEIBalt,type=factor(type),year=factor(year))
   
-  head(totalEmissions)
+  # Group data by year and type of the source
+  aggregateEmmissions  <- aggregate(Emissions ~ year+type,
+                                    data=factoredNEIBalt,
+                                    FUN=sum)
   
+  
+  
+  
+  head(aggregateEmmissions)
+  
+ 
 }
