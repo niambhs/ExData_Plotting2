@@ -1,4 +1,4 @@
-nei_research <- function() {
+plot1 <- function() {
   
   #Have total emissions from PM2.5 decreased in the United States from 1999 to 2008? 
   #Using the base plotting system, make a plot showing the total PM2.5 emission from
