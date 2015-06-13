@@ -12,6 +12,7 @@ plot3 <- function() {
   #sub set the data
   NEIBalt <- subset(NEI, fips=='24510')
   
+  #establish factors
   factoredNEIBalt<-transform(NEIBalt,type=factor(type),year=factor(year))
   
   # Group data by year and type of factoredNEIBalt
