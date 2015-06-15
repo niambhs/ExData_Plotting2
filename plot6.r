@@ -15,41 +15,43 @@ plot6 <- function() {
                           grepl('Vehicle',EI.Sector),ignore.case = TRUE)
   
   
-  NEIBaltLA <- subset(NEI, (fips=='24510' || fips=='06037'))
+  NEIBaltLA <- subset(NEI, fips=="06037" | fips=="24510")
+  
+    
+  #NEIBaltLA <- rbind(NEILA, NEIBalt)     
   
  
+  NEIBaltLA$fips <- replace(NEIBaltLA$fips, NEIBaltLA$fips == "24510", 
+                         "Baltimore") 
   
-  #merge the data
-  mergedData <- merge(NEIBaltLA, vehicleSubset, by=c("SCC"))
   
-  head(NEIBaltLA)
+  NEIBaltLA$fips <- replace(NEIBaltLA$fips, NEIBaltLA$fips == "06037", 
+                                    "Los Angeles") 
   
   #establish factors
-  factoredNEIBaltLA<-transform(mergedData,type=factor(type),year=factor(year))
+  factoredNEIBaltLA<-transform(NEIBaltLA,type=factor(type),year=factor(year))
+      
+  # Group data by year and type of factoredNEIBalt
+  aggregateEmmissions  <- aggregate(Emissions ~ year+ fips,
+                                    data=factoredNEIBaltLA,
+                                    FUN=sum)
+  head(aggregateEmmissions)
   
-  #factoredNEIBaltLA$fips <- replace(factoredNEIBaltLA$fips, factoredNEIBaltLA$fips == "24510", 
-                         # "Baltimore") 
+  
+  if (!require("ggplot2")) {
+    install.packages("ggplot2")
+  }
+  
+  require("ggplot2")
   
  
-  
-  # Group data by year and type of factoredNEIBalt
-  #aggregateEmmissions  <- aggregate(Emissions ~ year,
-                                    #data=factoredNEIBalt,
-                                    #FUN=sum)
-  
-  
-  #if (!require("ggplot2")) {
-    #install.packages("ggplot2")
-  #}
-  
-  #require("ggplot2")
-  
-  
-  #a <- ggplot(data = aggregateEmmissions, aes(x = year, y = Emissions,group = 1))
-  #a <- a + geom_point(position=position_jitter(w=0.1,h=0))
-  #a <- a + geom_smooth() 
-  #a <- a + xlab("Year") + ylab("Emmisions") + ggtitle("Baltimore Vehicle Emmisions 1999-2008") 
-  
-  #print(a)
+ 
+  a <- ggplot(data=aggregateEmmissions, aes(x = year, y = Emissions,colour=fips, group=fips))
+  a <- a + geom_line() 
+  a <- a +facet_grid(.~fips)
+  a <- a + xlab("Year") + ylab("Emmisions") + ggtitle("Baltimore  and Los Angeles Emmisions 1999-2008") 
+  print(a)
+  dev.copy(a, file="plot6.png", width=500, height=500)
+  dev.off()
   
 }

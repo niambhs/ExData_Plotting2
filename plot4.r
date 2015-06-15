@@ -9,7 +9,7 @@ plot4 <- function() {
   
   #subset data by coal
   coalSubset <- subset(SCC, 
-                         grepl('Coal',Short.Name),ignore.case = TRUE)
+                         grepl('Coal',SCC.Level.Three),ignore.case = TRUE)
  
   #merge the data
   mergedData <- merge(NEI, coalSubset, by=c("SCC"))
@@ -32,11 +32,12 @@ plot4 <- function() {
   }
   
   require("ggplot2")
+  
   a <- ggplot(data = aggregateEmmissions, aes(x = year, y = Emissions,group = 1))
-  a <- a + geom_point(position=position_jitter(w=0.1,h=0))
-  a <- a + geom_smooth() 
+  a <- a + geom_line() 
   a <- a + xlab("Year") + ylab("Emmisions") + ggtitle("Coal emissions from 1999-2008") 
-  
   print(a)
-  
+ 
+  dev.copy(a, file="plot4.png", width=500, height=500)
+  dev.off()
 }

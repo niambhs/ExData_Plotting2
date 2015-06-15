@@ -27,15 +27,15 @@ plot3 <- function() {
   }
   
   require("ggplot2")
+  
   a <- ggplot(data = aggregateEmmissions, aes(x = year, y = Emissions, col = type, group = type))
-  a <- a + geom_point()
   a <- a + geom_line() 
   a <- a + xlab("Year") + ylab("Emmisions") + ggtitle("Total emissions from 1999-2008") + 
     scale_color_discrete(name = "Type")
-  #a<-qplot(year, Emissions, data = aggregateEmmissions, geom = c("point", "line"), colour = type)
  
-
   print(a)
+  dev.copy(a, file="plot3.png", width=500, height=500)
+  dev.off()
   
  
 }

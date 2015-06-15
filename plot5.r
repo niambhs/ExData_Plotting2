@@ -35,11 +35,14 @@ plot5 <- function() {
   }
   
   require("ggplot2")
+  
+
   a <- ggplot(data = aggregateEmmissions, aes(x = year, y = Emissions,group = 1))
-  a <- a + geom_point(position=position_jitter(w=0.1,h=0))
-  a <- a + geom_smooth() 
+  a <- a + geom_line() 
   a <- a + xlab("Year") + ylab("Emmisions") + ggtitle("Baltimore Vehicle Emmisions 1999-2008") 
   
   print(a)
+  dev.copy(a, file="plot5.png", width=500, height=500)
+  dev.off()
   
 }
