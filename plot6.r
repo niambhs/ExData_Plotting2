@@ -15,14 +15,11 @@ plot6 <- function() {
                           grepl('Vehicle',EI.Sector),ignore.case = TRUE)
   
   
-  NEIBaltLA <- subset(NEI, fips=="06037" | fips=="24510")
+  NEIBaltLA <- subset(NEI, (fips=="06037" | fips=="24510") & type =="ON-ROAD")
   
-    
-  #NEIBaltLA <- rbind(NEILA, NEIBalt)     
   
- 
   NEIBaltLA$fips <- replace(NEIBaltLA$fips, NEIBaltLA$fips == "24510", 
-                         "Baltimore") 
+                                    "Baltimore") 
   
   
   NEIBaltLA$fips <- replace(NEIBaltLA$fips, NEIBaltLA$fips == "06037", 
@@ -35,17 +32,13 @@ plot6 <- function() {
   aggregateEmmissions  <- aggregate(Emissions ~ year+ fips,
                                     data=factoredNEIBaltLA,
                                     FUN=sum)
-  head(aggregateEmmissions)
-  
   
   if (!require("ggplot2")) {
-    install.packages("ggplot2")
+   install.packages("ggplot2")
   }
   
   require("ggplot2")
   
- 
- 
   a <- ggplot(data=aggregateEmmissions, aes(x = year, y = Emissions,colour=fips, group=fips))
   a <- a + geom_line() 
   a <- a +facet_grid(.~fips)
